@@ -31,7 +31,7 @@ type ErrorData struct {
 	FullString string
 }
 
-func CustomHTTPErrorHandler(version string, getUserIdFunc func(ctx *WebCtx) (string, error)) func(ctx *WebCtx, err error) error {
+func CustomHTTPErrorHandler(version string, getUserIdFunc func(ctx *WebCtx) string) func(ctx *WebCtx, err error) error {
 	return func(ctx *WebCtx, err error) error {
 		defer func() {
 			err := recover()
@@ -74,10 +74,7 @@ func CustomHTTPErrorHandler(version string, getUserIdFunc func(ctx *WebCtx) (str
 		// if loginErr == nil && jsonToken != nil {
 		// 	userId = jsonToken.Get("Id")
 		// }
-		userId, err := getUserIdFunc(ctx)
-		if err == nil {
-			userId = userId
-		}
+		userId := getUserIdFunc(ctx)
 		log.Println("user data. ip:", ctx.IP(), "ua:", string(ctx.UserAgent()), "userId:", userId, "version", version)
 		bodyStrUtf8 := utf8string.NewString(string(ctx.Body()))
 		bodyStr := ""
