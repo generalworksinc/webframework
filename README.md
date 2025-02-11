@@ -1,1 +1,1 @@
-# common codes for golang (Generalworks inc)
+# web wrapper for golang (Generalworks inc)
